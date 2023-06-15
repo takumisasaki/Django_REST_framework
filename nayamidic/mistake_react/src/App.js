@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 
 import { Header } from "./components/Header";
@@ -21,6 +21,29 @@ export function LoginButton() {
 
 function App() {
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log(token)
+    if (token) {
+        // Use the token to restore the login state
+        fetch("http://localhost:8000/mistake/restore-login/", {
+            method: "GET",
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                setUser(data.username);
+                console.log(data.user_id)
+            }
+        });
+    }
+  }, []);
 
   return (
     <div className="App">

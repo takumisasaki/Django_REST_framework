@@ -32,6 +32,7 @@ export const LogoutButton = () => {
       .then(response => {
         if (response.ok) {
           setUser(null);
+          localStorage.setItem('token', null);
         } else {
           console.error('Logout failed');
         }

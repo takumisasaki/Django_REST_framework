@@ -11,13 +11,17 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   TemplateView, UpdateView)
+from django.contrib.auth import logout
+
 from rest_framework import viewsets
 from .serializers import PostSerializer, MyPostSerializer, HomeSerializer, SignupSerializer, LoginSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth import logout
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+
 
 from .forms import LoginForm, PostEditForm, PostForm, SignupForm, UserUpdateForm
 from .models import Follow, Post, User as user, like
@@ -305,13 +309,31 @@ class ReactLogin(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        # print(request.data['username'])
-        return Response({"message": "Success", "user": request.data['username']})
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        # print(type(token))
+        return Response({"message": "Success", "user": request.data['username'], "token": str(token)})
     
 class ReactLogoutView(APIView):
     def post(self, request):
         logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class CustomAuthToken(ObtainAuthToken):
+    def get(self, request, *args, **kwargs):
+        try:
+            token = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+            token = Token.objects.get(key=token)
+            return Response({
+                'token': token.key,
+                'user_id': token.user_id,
+                'username': token.user.username,
+                # You can include more user info here
+            })
+        except:
+            return Response({
+                'error': 'Invalid token'
+            })
 
 class ReactHomeView(viewsets.ModelViewSet):
     queryset = Post.objects.select_related('user').all()

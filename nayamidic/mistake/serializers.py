@@ -29,6 +29,8 @@ class LoginSerializer(serializers.Serializer):
 
             if not user.is_active:
                 raise serializers.ValidationError("User is deactivated.")
+            
+            data['user'] = user
 
         else:
             raise serializers.ValidationError("Must include 'username' and 'password'.")
@@ -38,7 +40,7 @@ class LoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username'] 
+        fields = ['id','username'] 
     
 class HomeSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)

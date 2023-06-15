@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
 
 const getCookie = (name) => {
     let cookieValue = null;
@@ -46,10 +47,10 @@ export const Login = ({ onClose, handleSignupClick }) => {
             if (data.error) {
                 alert(data.error);
             } else {
+                localStorage.setItem('token', data.token);
+                // console.log(localStorage.getItem('token'));
                 alert(data.user);
                 setUser(data.user);
-                // console.log(userContextValue); 
-                // navigate('/'); 
                 onClose();
             }
         });
@@ -89,7 +90,10 @@ export const Login = ({ onClose, handleSignupClick }) => {
         >
             <CloseIcon />
         </IconButton>
-        <form onSubmit={handleSubmit} style={{ width: '80%', marginTop: '36px' }}>
+        <Typography sx={{color:"black", marginTop: '40px'}} variant="h4" component="div" gutterBottom>
+            Login
+        </Typography>
+        <form onSubmit={handleSubmit} style={{ width: '80%', marginTop: '10px' }}>
             <TextField 
                 fullWidth
                 margin="normal"
@@ -132,31 +136,5 @@ export const Login = ({ onClose, handleSignupClick }) => {
         </Button>
      </Box>
   </Box>
-
-      // <div style={{
-      //   position: 'fixed', 
-      //   top: 0,
-      //   left: 0,
-      //   width: '100%', 
-      //   height: '100%', 
-      //   display: 'flex',
-      //   alignItems: 'center',
-      //   justifyContent: 'center',
-      //   backgroundColor: 'rgba(0, 0, 0, 0.7)', // This creates a semi-transparent dark background
-      // }}>
-      //   <div style={{
-      //     backgroundColor: '#fff',
-      //     padding: '20px',
-      //     borderRadius: '10px',
-      //   }}>
-      //     <button onClick={onClose}>X</button>
-      //     <form onSubmit={handleSubmit}>
-      //       <input type="text" placeholder="Username" onChange={e => setUsername(e.target.value)} />
-      //       <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-      //       <input type="submit" value="Login" />
-      //     </form>
-      //     <button onClick={handleSignupClick}>Signup</button>
-      //   </div>
-      // </div>
     );
   };
