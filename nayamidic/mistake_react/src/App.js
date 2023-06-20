@@ -21,7 +21,7 @@ export function LoginButton() {
 
 function App() {
   const [user, setUser] = useState(null);
-
+  const [user_id, setUserId] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log(token)
@@ -36,10 +36,10 @@ function App() {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                alert(data.error);
+                alert(data.error, 'app.js error');
             } else {
                 setUser(data.username);
-                console.log(data.user_id)
+                setUserId(data.user_id)
             }
         });
     }
@@ -48,7 +48,7 @@ function App() {
   return (
     <div className="App">
       <Router> 
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, user_id, setUserId}}>
           <Header />
           {user && <p>Welcome, {user}</p>}
           <DisplayUsername />

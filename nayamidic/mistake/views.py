@@ -14,7 +14,7 @@ from django.views.generic import (CreateView, DetailView, FormView, ListView,
 from django.contrib.auth import logout
 
 from rest_framework import viewsets
-from .serializers import PostSerializer, MyPostSerializer, HomeSerializer, SignupSerializer, LoginSerializer
+from .serializers import PostSerializer, HomeSerializer, SignupSerializer, LoginSerializer, PostCreateSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -310,9 +310,9 @@ class ReactLogin(APIView):
         serializer = LoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        user_id = serializer.validated_data['user_id']
         token, created = Token.objects.get_or_create(user=user)
-        # print(type(token))
-        return Response({"message": "Success", "user": request.data['username'], "token": str(token)})
+        return Response({"message": "Success", "user": request.data['username'], "user_id":user_id , "token": str(token)})
     
 class ReactLogoutView(APIView):
     def post(self, request):
@@ -347,3 +347,39 @@ class ReactSignupView(APIView):
             user = serializer.save()
             return Response({"user": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ReactPostCreateView(APIView):
+    def post(self, request):
+        serializer = PostCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            text = serializer.validated_data['text']
+            utf8_string = text.encode('utf-8')
+            text = utf8_string.decode('utf-8')
+            comprehend = boto3.client(
+                'comprehend',
+                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                region_name='ap-northeast-1'
+            )
+
+            response = comprehend.detect_sentiment(
+                Text=text,
+                LanguageCode='ja'
+            )
+
+            sentiment_score = response['SentimentScore']
+            print(user.objects.get(id=serializer.validated_data['user']))
+            post_user = user.objects.get(id=serializer.validated_data['user'])
+            categories = serializer.validated_data['categories']
+            post_create = Post()
+            post_create.user = post_user
+            post_create.categories = categories
+            post_create.text = text
+            post_create.post_positive = sentiment_score['Positive']
+            post_create.post_negative = sentiment_score['Negative']
+            post_create.post_neutral = sentiment_score['Neutral']
+            post_create.post_mixed = sentiment_score['Mixed']
+            post_create.save()
+            return Response({"message": "Post created"}, status=201)
+
+        return Response({"error": serializer.errors}, status=400)

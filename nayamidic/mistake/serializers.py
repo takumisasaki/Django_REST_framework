@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'text']
 
-class MyPostSerializer(serializers.ModelSerializer):
+class PostCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'text']
@@ -31,6 +31,7 @@ class LoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError("User is deactivated.")
             
             data['user'] = user
+            data['user_id'] = user.id
 
         else:
             raise serializers.ValidationError("Must include 'username' and 'password'.")
@@ -68,3 +69,16 @@ class SignupSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+    
+class PostCreateSerializer(serializers.Serializer):
+    categories = serializers.ChoiceField(
+        choices=[
+            ('仕事', '仕事'),
+            ('学校', '学校'),
+            ('ギャンブル', 'ギャンブル'),
+        ],
+        required=True,
+    )
+    text = serializers.CharField(max_length=150, required=True)
+    user = serializers.IntegerField() 
+
