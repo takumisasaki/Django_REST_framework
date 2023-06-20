@@ -82,3 +82,10 @@ class PostCreateSerializer(serializers.Serializer):
     text = serializers.CharField(max_length=150, required=True)
     user = serializers.IntegerField() 
 
+
+# SearchListSerializer
+class SearchListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = ['id', 'user', 'categories', 'text']
