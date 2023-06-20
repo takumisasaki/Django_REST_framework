@@ -21,6 +21,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from django.core import serializers
 
 
 from .forms import LoginForm, PostEditForm, PostForm, SignupForm, UserUpdateForm
@@ -383,3 +384,11 @@ class ReactPostCreateView(APIView):
             return Response({"message": "Post created"}, status=201)
 
         return Response({"error": serializer.errors}, status=400)
+    
+    
+class ReactSearchListView(APIView):
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('query')
+        results = Post.objects.filter(text__icontains=query) # Assuming you are searching 'name' field in your model
+        data = serializers.serialize('json', results)
+        return JsonResponse(data, safe=False)

@@ -7,7 +7,8 @@ import { Home } from "./components/Home";
 import { Login } from "./components/Login";
 import { UserContext } from "./components/UserContext";
 import { DisplayUsername } from "./components/DisplayUsername";
-import  {Signup} from "./components/Signup"
+import  {Signup} from "./components/Signup";
+import Search from "./components/Search";
 
 export function LoginButton() {
   const navigate = useNavigate();
@@ -50,9 +51,10 @@ function App() {
       <Router> 
         <UserContext.Provider value={{ user, setUser, user_id, setUserId}}>
           <Header />
-          {user && <p>Welcome, {user}</p>}
-          <DisplayUsername />
+          {/* {user && <p>Welcome, {user}</p>} */}
+          {/* <DisplayUsername /> */}
         </UserContext.Provider>
+        <Search />
         <Home />
         {/* <Signup /> */}
       </ Router>

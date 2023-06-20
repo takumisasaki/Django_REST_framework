@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import React, { useState, useContext } from "react";
 
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+
 import { UserContext } from "./UserContext";
 import { Signup } from "./Signup";
 import { Login } from "./Login";
 import { LogoutButton } from "./LogoutButton";
-import  PostCreate  from "./PostCreate";
 import { DisplayUsername } from "./DisplayUsername";
+import  PostCreate  from "./PostCreate";
 
 
 export const Header = () => {
@@ -30,14 +32,32 @@ export const Header = () => {
   }
 
   return (
-      <div style={{ backgroundColor: '#2f0163', height: '60px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
-        <h1 style={{margin: 0}}>mistter</h1>
-          {user && <p>{ user }:<LogoutButton /></p>}
-          {user && <button onClick={handlepostcreateClick} onClose={() => setShowPostCreate(false)}>投稿</button>}
-          {!user && <button onClick={handleLoginClick}>Login</button>} {/* Use the button here directly */}
-          {showLogin && <Login setShowLogin={setShowLogin}  onClose={() => setShowLogin(false)} handleSignupClick={handleSignupClick} />} {/* Conditionally render the login form */}
-          {showSignup && <Signup setShowSignup={setShowSignup}  onClose={() => setShowSignup(false)} />} {/* Conditionally render the login form */}
-          {showPostCreate && <PostCreate setShowPostCreate={setShowPostCreate} onClose={() => setShowPostCreate(false)} />}
+    <AppBar position="static" style={{ backgroundColor: '#2f0163' }}>
+    <Toolbar style={{ justifyContent: 'space-between' }}>
+      <Typography variant="h6" component="div" style={{ color: 'white' }}>
+        mistter
+      </Typography>
+      <div>
+        {user ? (
+          <>
+            <Typography variant="subtitle1" component="p" style={{ color: 'white', display: 'inline' }}>
+              { user }
+            </Typography>
+            <LogoutButton />
+            <Button variant="contained" color="secondary" onClick={handlepostcreateClick} onClose={() => setShowPostCreate(false)}>
+              投稿
+            </Button>
+          </>
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleLoginClick}>
+            Login
+          </Button>
+        )}
+        {showLogin && <Login setShowLogin={setShowLogin}  onClose={() => setShowLogin(false)} handleSignupClick={handleSignupClick} />}
+        {showSignup && <Signup setShowSignup={setShowSignup}  onClose={() => setShowSignup(false)} />}
+        {showPostCreate && <PostCreate setShowPostCreate={setShowPostCreate} onClose={() => setShowPostCreate(false)} />}
       </div>
+    </Toolbar>
+  </AppBar>
   );
 }
