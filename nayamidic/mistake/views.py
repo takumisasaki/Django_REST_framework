@@ -14,7 +14,7 @@ from django.views.generic import (CreateView, DetailView, FormView, ListView,
 from django.contrib.auth import logout
 
 from rest_framework import viewsets
-from .serializers import PostSerializer, HomeSerializer, SignupSerializer, LoginSerializer, PostCreateSerializer
+from .serializers import PostSerializer, HomeSerializer, SignupSerializer, LoginSerializer, PostCreateSerializer,SearchListSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -389,6 +389,10 @@ class ReactPostCreateView(APIView):
 class ReactSearchListView(APIView):
     def get(self, request, *args, **kwargs):
         query = request.GET.get('query')
-        results = Post.objects.filter(text__icontains=query) # Assuming you are searching 'name' field in your model
-        data = serializers.serialize('json', results)
+        results = Post.objects.filter(text__icontains=query).select_related('user') # Assuming you are searching 'name' field in your model
+        serializer = SearchListSerializer(results, many=True)
+        data = serializer.data
+        # print(serializer)
+        # data = serializers.serialize('json', serializer)
+        print(JsonResponse(data, safe=False))
         return JsonResponse(data, safe=False)

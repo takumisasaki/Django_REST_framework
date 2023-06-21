@@ -1,7 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
-import { UserIdContext } from "./UserContext";
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -29,8 +27,6 @@ export const Login = ({ onClose, handleSignupClick }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const csrftoken = getCookie('csrftoken');
-    const navigate = useNavigate();
-    const userContextValue = useContext(UserContext);
     const { setUser } = useContext(UserContext);
     const { setUserId } = useContext(UserContext);
 
