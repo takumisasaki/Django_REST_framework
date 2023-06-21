@@ -1,3 +1,4 @@
+// App.js
 import './App.css';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
@@ -8,7 +9,8 @@ import { Login } from "./components/Login";
 import { UserContext } from "./components/UserContext";
 import { DisplayUsername } from "./components/DisplayUsername";
 import  {Signup} from "./components/Signup";
-import Search from "./components/Search";
+import {SearchProvider} from "./components/SearchContext";
+import SearchList from './components/SearchList';
 
 export function LoginButton() {
   const navigate = useNavigate();
@@ -25,7 +27,6 @@ function App() {
   const [user_id, setUserId] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log(token)
     if (token) {
         // Use the token to restore the login state
         fetch("http://localhost:8000/mistake/restore-login/", {
@@ -49,14 +50,16 @@ function App() {
   return (
     <div className="App">
       <Router> 
-        <UserContext.Provider value={{ user, setUser, user_id, setUserId}}>
-          <Header />
-          {/* {user && <p>Welcome, {user}</p>} */}
-          {/* <DisplayUsername /> */}
-        </UserContext.Provider>
-        <Search />
-        <Home />
-        {/* <Signup /> */}
+        <SearchProvider>
+          <UserContext.Provider value={{ user, setUser, user_id, setUserId}}>
+            <Header />
+          </UserContext.Provider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<SearchList />} /> {/* Add this */}
+            {/* other routes... */}
+          </Routes>
+        </SearchProvider>
       </ Router>
     </div>
   );
