@@ -8,7 +8,7 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/nayamidic/manage.py",
+            "program": "${workspaceFolder}/misster/manage.py",
             "args": [
                 "runserver"
             ],

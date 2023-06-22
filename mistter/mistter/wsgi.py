@@ -1,5 +1,5 @@
 """
-WSGI config for nayamidic project.
+WSGI config for mistter project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nayamidic.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mistter.settings')
 
 application = get_wsgi_application()

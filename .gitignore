@@ -5,6 +5,6 @@ __pycache__/
 local_settings.py
 db.sqlite3
 media
-nayamidic/nayamidic/settings.py
+misster/mistter/settings.py
 settings.py
 memo.txt
