@@ -5,7 +5,7 @@ import django.contrib.auth.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-import mistake.models
+import mistterapp.models
 
 
 class Migration(migrations.Migration):
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'users',
             },
             managers=[
-                ('objects', mistake.models.UserManager()),
+                ('objects', mistterapp.models.UserManager()),
             ],
         ),
         migrations.CreateModel(
@@ -64,7 +64,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('like_flag', models.BooleanField(default=False)),
-                ('post_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mistake.post')),
+                ('post_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mistterapp.post')),
                 ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
             ],
         ),
