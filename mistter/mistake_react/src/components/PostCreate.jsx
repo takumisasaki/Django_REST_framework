@@ -27,7 +27,7 @@ const PostCreate = ({onClose}) => {
     const csrftoken = getCookie('csrftoken');
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('http://localhost:8000/mistake/post-create/', {
+        fetch('http://localhost:8000/mistterapp/post-create/', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

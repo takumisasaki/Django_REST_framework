@@ -22,7 +22,7 @@ export const LogoutButton = () => {
     const csrftoken = getCookie('csrftoken');
   
     const handleLogoutClick = () => {
-      fetch("http://localhost:8000/mistake/logout/", {
+      fetch("http://localhost:8000/mistterapp/logout/", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

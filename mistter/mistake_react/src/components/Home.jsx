@@ -6,7 +6,7 @@ export const Home = () => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/mistake/home/')
+        axios.get('http://127.0.0.1:8000/mistterapp/home/')
             .then(response => {
                 setData(response.data);
             });

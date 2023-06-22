@@ -8,7 +8,7 @@ const Search = () => {
     const navigate = useNavigate();
 
     const handleSearch = async () => {
-        const response = await fetch(`http://localhost:8000/mistake/post-search?query=${query}`);
+        const response = await fetch(`http://localhost:8000/mistterapp/post-search?query=${query}`);
         const data = await response.json();
         if (Array.isArray(data)) {
             setSearchResults(data);

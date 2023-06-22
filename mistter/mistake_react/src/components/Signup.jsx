@@ -18,7 +18,7 @@ export const Signup = ({ onClose }) => {
             return;
         }
 
-        fetch('http://localhost:8000/mistake/signup/', {
+        fetch('http://localhost:8000/mistterapp/signup/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

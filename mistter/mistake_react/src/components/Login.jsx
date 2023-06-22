@@ -32,7 +32,7 @@ export const Login = ({ onClose, handleSignupClick }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch("http://localhost:8000/mistake/login/", {
+        fetch("http://localhost:8000/mistterapp/login/", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
