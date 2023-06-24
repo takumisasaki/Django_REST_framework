@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Card, CardContent, Typography } from "@mui/material";
+import { Link } from 'react-router-dom';
+import { AppBar, Card, CardContent, Typography } from "@mui/material";
 
 export const Home = () => {
     const [data, setData] = useState(null);
@@ -17,7 +18,7 @@ export const Home = () => {
             <Card key={item.id} style={{ marginBottom: "15px", width: '100%', borderRadius: 15, boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)" }}>
                 <CardContent>
                     <Typography variant="h6" component="h2" style={{fontWeight: "bold"}}>
-                        {item.user.username}
+                    <Link to={'/userdetail'} state={{ user: item.user }}> {item.user.username} </Link>
                     </Typography>
                     <Typography color="textSecondary" style={{ marginBottom: "10px" }}>
                         Categories: {Array.isArray(item.categories) ? item.categories.join(', ') : item.categories}

@@ -1,4 +1,3 @@
-// App.js
 import './App.css';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
@@ -7,8 +6,9 @@ import { Header } from "./components/Header";
 import { Home } from "./components/Home";
 import { Login } from "./components/Login";
 import { UserContext } from "./components/UserContext";
+import { UserDetail } from './components/UserDetail';
 import { DisplayUsername } from "./components/DisplayUsername";
-import  {Signup} from "./components/Signup";
+import { Signup } from "./components/Signup";
 import {SearchProvider} from "./components/SearchContext";
 import SearchList from './components/SearchList';
 
@@ -54,11 +54,14 @@ function App() {
           <UserContext.Provider value={{ user, setUser, user_id, setUserId}}>
             <Header />
           </UserContext.Provider>
+          <div style={{ marginTop: '64px' }}> {/* Add this */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<SearchList />} /> {/* Add this */}
+            <Route path="/userdetail" element={<UserDetail />} />
             {/* other routes... */}
           </Routes>
+          </div>
         </SearchProvider>
       </ Router>
     </div>

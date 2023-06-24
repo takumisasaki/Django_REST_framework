@@ -4,7 +4,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 
 const SearchList = () => {
     const { searchResults } = useContext(SearchContext);
-    console.log(searchResults, "------searchResults------");
+    // console.log(searchResults, "------searchResults------");
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '0 30%' }}>

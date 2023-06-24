@@ -90,3 +90,8 @@ class SearchListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'user', 'categories', 'text']
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'user', 'categories', 'text']

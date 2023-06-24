@@ -36,7 +36,7 @@ export const Header = () => {
   }
 
   return (
-<AppBar position="static" style={{ backgroundColor: '#2f0163' }}>
+<AppBar position="fixed" style={{ backgroundColor: '#2f0163' }}>
   <Toolbar style={{ display: 'flex', justifyContent: 'center', gap: '100px' }}>
     <Typography variant="h6" component="div" style={{ color: 'white' }}>
       <Link to="/">mistter</Link>
