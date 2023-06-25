@@ -43,7 +43,7 @@ export const UserDetail = () => {
         <Card style={{ maxWidth: 500, margin: '20px auto' }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            User: {item.user}
+            {user.username}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Categories: {Array.isArray(item.categories) ? item.categories.join(', ') : item.categories}

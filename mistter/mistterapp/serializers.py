@@ -95,3 +95,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'user', 'categories', 'text']
+
+class MyPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'user', 'categories', 'text']

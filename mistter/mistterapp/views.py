@@ -14,7 +14,7 @@ from django.views.generic import (CreateView, DetailView, FormView, ListView,
 from django.contrib.auth import logout
 
 from rest_framework import viewsets
-from .serializers import PostSerializer, HomeSerializer, SignupSerializer, LoginSerializer, PostCreateSerializer,SearchListSerializer, UserDetailSerializer
+from .serializers import PostSerializer, HomeSerializer, SignupSerializer, LoginSerializer, PostCreateSerializer,SearchListSerializer, UserDetailSerializer, MyPageSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -401,5 +401,12 @@ class ReactUserDetailView(APIView):
         results = Post.objects.filter(user=user).select_related('user') # Assuming you are searching 'name' field in your model
         serializer = UserDetailSerializer(results, many=True)
         data = serializer.data
-        print(data)
+        return JsonResponse(data, safe=False)
+    
+class ReactMyPageView(APIView):
+    def get(self, request):
+        user = request.GET.get('query')
+        results = Post.objects.filter(user=user).select_related('user') # Assuming you are searching 'name' field in your model
+        serializer = MyPageSerializer(results, many=True)
+        data = serializer.data
         return JsonResponse(data, safe=False)

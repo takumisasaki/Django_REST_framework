@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 
 import { Header } from "./components/Header";
 import { Home } from "./components/Home";
+import { MyPage } from "./components/MyPage";
 import { Login } from "./components/Login";
 import { UserContext } from "./components/UserContext";
 import { UserDetail } from './components/UserDetail';
@@ -53,15 +54,16 @@ function App() {
         <SearchProvider>
           <UserContext.Provider value={{ user, setUser, user_id, setUserId}}>
             <Header />
-          </UserContext.Provider>
           <div style={{ marginTop: '64px' }}> {/* Add this */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<SearchList />} /> {/* Add this */}
             <Route path="/userdetail" element={<UserDetail />} />
+            <Route path="/mypage" element={<MyPage />} />
             {/* other routes... */}
           </Routes>
           </div>
+          </UserContext.Provider>
         </SearchProvider>
       </ Router>
     </div>

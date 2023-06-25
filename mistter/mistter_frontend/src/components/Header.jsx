@@ -47,7 +47,7 @@ export const Header = () => {
       {user ? (
         <>
           <Typography variant="subtitle1" component="p" style={{ color: 'white', display: 'inline' }}>
-            { user }
+            <Link to="/mypage">{user}</Link>
           </Typography>
           <LogoutButton />
           <Button variant="contained" color="secondary" onClick={handlepostcreateClick} onClose={() => setShowPostCreate(false)}>
