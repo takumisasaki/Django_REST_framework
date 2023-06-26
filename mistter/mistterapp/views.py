@@ -1,4 +1,5 @@
 import boto3
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
@@ -409,4 +410,26 @@ class ReactMyPageView(APIView):
         results = Post.objects.filter(user=user).select_related('user') # Assuming you are searching 'name' field in your model
         serializer = MyPageSerializer(results, many=True)
         data = serializer.data
+        return JsonResponse(data, safe=False)
+
+class ReactFollowView(APIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        print(data['user_id'])
+        follow_id = user.objects.get(pk=data['follow_id'])
+        user_id = user.objects.get(pk=data['user_id'])
+
+        model = Follow.objects.filter(followed=follow_id, following=user_id)
+        if model.count() == 0:
+            follow_table = Follow()
+            follow_table.followed = follow_id
+            follow_table.following = user_id
+            follow_table.save()
+        else:
+            model.delete()
+        data = {
+            'follow_id' : follow_id.id,
+            'followed_count' : Follow.objects.filter(followed=follow_id).count(),
+            'following_count' : Follow.objects.filter(following=follow_id).count(),
+            }
         return JsonResponse(data, safe=False)

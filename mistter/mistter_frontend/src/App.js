@@ -30,7 +30,7 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
         // Use the token to restore the login state
-        fetch("http://localhost:8000/mistake/restore-login/", {
+        fetch("http://localhost:8000/mistterapp/restore-login/", {
             method: "GET",
             headers: {
                 'Authorization': `Token ${token}`
