@@ -11,13 +11,18 @@ export const UserDetail = () => {
     const { user } = location.state 
     const [ userDetail, setUserDetail ] = useState(null);
     const { user_id } = useContext(UserContext);
+    const [ followed, setFollowed ] = useState(null);
+    const [ following, setFollowing ] = useState(null);
 
     useEffect(() => {
       const handleUserDetail = async () => {
         console.log(user);
           try {
               const response = await axios.get(`http://localhost:8000/mistterapp/userdetail?query=${user.id}`);
-              setUserDetail(response.data);
+              setUserDetail(response.data.data);
+              setFollowed(response.data.followed_count);
+              setFollowing(response.data.following_count);
+              
           } catch (error) {
               console.error("Unexpected error:", error);
           }
@@ -33,6 +38,8 @@ export const UserDetail = () => {
         follow_id: user.id,
       });
       console.log(response.data);
+      setFollowed(response.data.followed_count);
+      setFollowing(response.data.following_count);
     } catch (error) {
       console.error("Unexpected error:");
     }
@@ -47,6 +54,7 @@ export const UserDetail = () => {
         <Typography gutterBottom variant="h5" component="div">
           {user.username}
         </Typography>
+        フォロー：{following} フォロワー：{followed}<br />
         <Button variant="contained" onClick={handleUserFollow}>Follow</Button>
         <Typography variant="body2" color="text.secondary"></Typography>
         <Typography variant="body2" color="text.secondary"></Typography>
