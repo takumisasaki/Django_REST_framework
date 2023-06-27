@@ -417,7 +417,13 @@ class ReactMyPageView(APIView):
         results = Post.objects.filter(user=user).select_related('user') # Assuming you are searching 'name' field in your model
         serializer = MyPageSerializer(results, many=True)
         data = serializer.data
-        return JsonResponse(data, safe=False)
+        followed_count = Follow.objects.filter(followed=user).count()
+        following_count = Follow.objects.filter(following=user).count()
+        return JsonResponse({
+            'data': data,
+            'followed_count': followed_count,
+            'following_count': following_count
+        }, safe=False)
 
 class ReactFollowView(APIView):
     def post(self, request):

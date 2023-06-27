@@ -7,14 +7,18 @@ export const MyPage = () => {
     const { user } = useContext(UserContext);
     const { user_id } = useContext(UserContext);
     const [data, setData] = useState(null);
+    const [ followed, setFollowed ] = useState(null);
+    const [ following, setFollowing ] = useState(null);
 
     useEffect(() => {
         const handleUserMyPage = async () => {
           console.log(user_id);
             try {
                 const response = await axios.get(`http://localhost:8000/mistterapp/mypage?query=${user_id}`);
-                setData(response.data);
-                console.log(response.data);
+                setData(response.data.data);
+                setFollowed(response.data.followed_count);
+                setFollowing(response.data.following_count);
+                console.log(response.data.data);
             } catch (error) {
                 console.error("Unexpected error:", error);
             }
@@ -31,6 +35,7 @@ export const MyPage = () => {
         <Typography gutterBottom variant="h5" component="div">
             { user }
         </Typography>
+        フォロー：{following} フォロワー：{followed}<br />
         <Typography variant="body2" color="text.secondary"></Typography>
         <Typography variant="body2" color="text.secondary"></Typography>
         </CardContent>
