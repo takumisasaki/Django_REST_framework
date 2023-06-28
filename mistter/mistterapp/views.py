@@ -360,7 +360,7 @@ class ReactHomeView(viewsets.ModelViewSet):
             'post_id':post_box.id,
             'like_count':post_box.like_count
         }
-        
+
     # def list(self, request, *args, **kwargs):
     #     temp = self.queryset
     #     for post in temp:
@@ -473,23 +473,3 @@ class ReactFollowView(APIView):
             }
         return JsonResponse(data, safe=False)
     
-# class ReactFavoriteView(APIView):
-#     def post(self, request):
-#         data = json.loads(request.body)
-#         print(data['user_id'])
-#         favorite_id = Post.objects.get(pk=data['favorite_id'])
-#         user_id = user.objects.get(pk=data['user_id'])
-
-#         model = Favorite.objects.filter(favorite=favorite_id, user=user_id)
-#         if model.count() == 0:
-#             favorite_table = Favorite()
-#             favorite_table.favorite = favorite_id
-#             favorite_table.user = user_id
-#             favorite_table.save()
-#         else:
-#             model.delete()
-#         data = {
-#             'favorite_id' : favorite_id.id,
-#             'favorite_count' : Favorite.objects.filter(favorite=favorite_id).count(),
-#             }
-#         return JsonResponse(data, safe=False)
