@@ -12,6 +12,7 @@ export const Home = () => {
                 setData(response.data);
             });
     }, []);
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '0 30%' }}>
         {data && data.map(item => (
@@ -25,11 +26,12 @@ export const Home = () => {
                     </Typography>
                     <Typography variant="body2" component="p">
                         {item.text}
+                        {item.like_count}
                     </Typography>
                 </CardContent>
             </Card>
         ))}
-    </div>
+        </div>
     );
   };
   

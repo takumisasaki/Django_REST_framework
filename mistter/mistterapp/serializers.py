@@ -1,7 +1,7 @@
 from atexit import register
 from dataclasses import fields
 from rest_framework import serializers
-from .models import Post, User
+from .models import Post, User, like
 from django.contrib.auth import authenticate
 
 class PostSerializer(serializers.ModelSerializer):
@@ -42,13 +42,19 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','username'] 
+
+# class LikeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = like
+#         fields = ['id', 'like_flag', 'post_id', 'user_id']
     
 class HomeSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    # likes = LikeSerializer(source='like_set', many=True, read_only=True)
 
     class Meta:
         model = Post
-        fields = ['id', 'user', 'categories', 'text']
+        fields = ['id', 'user', 'categories', 'text', 'like_count']
 
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

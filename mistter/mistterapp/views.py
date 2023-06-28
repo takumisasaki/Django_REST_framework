@@ -1,5 +1,6 @@
 import boto3
 import json
+from django.db.models import Count
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
@@ -341,6 +342,31 @@ class ReactHomeView(viewsets.ModelViewSet):
     queryset = Post.objects.select_related('user').all()
     serializer_class = HomeSerializer
 
+    def likefunc(self, request, *args, **kwargs):
+        post_id = request.POST.get('post_id')
+        model = like.objects.filter(user_id=request.user,  post_id=post_id)
+        post_box = Post.objects.get(pk=post_id)
+        if model.count() == 0:
+            like_table = like()
+            like_table.user_id = request.user
+            like_table.post_id = post_box
+            like_table.save()
+        else:
+            model.delete()
+        this_post = like.objects.filter(post_id=post_id).count()
+        post_box.like_count = this_post
+        post_box.save()
+        context = {
+            'post_id':post_box.id,
+            'like_count':post_box.like_count
+        }
+        
+    # def list(self, request, *args, **kwargs):
+    #     temp = self.queryset
+    #     for post in temp:
+    #         print(f"Post ID: {post.id}, Like Count: {post.total_count}")
+    #     return super().list(request, *args, **kwargs)
+
 class ReactSignupView(APIView):
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
@@ -446,3 +472,24 @@ class ReactFollowView(APIView):
             'following_count' : Follow.objects.filter(following=follow_id).count(),
             }
         return JsonResponse(data, safe=False)
+    
+# class ReactFavoriteView(APIView):
+#     def post(self, request):
+#         data = json.loads(request.body)
+#         print(data['user_id'])
+#         favorite_id = Post.objects.get(pk=data['favorite_id'])
+#         user_id = user.objects.get(pk=data['user_id'])
+
+#         model = Favorite.objects.filter(favorite=favorite_id, user=user_id)
+#         if model.count() == 0:
+#             favorite_table = Favorite()
+#             favorite_table.favorite = favorite_id
+#             favorite_table.user = user_id
+#             favorite_table.save()
+#         else:
+#             model.delete()
+#         data = {
+#             'favorite_id' : favorite_id.id,
+#             'favorite_count' : Favorite.objects.filter(favorite=favorite_id).count(),
+#             }
+#         return JsonResponse(data, safe=False)

@@ -6,7 +6,7 @@ from . import views
 from .views import FollowView, HomeView, PostCreate, Signup, Login, Logout, SearchListView ,PostView, LikePostView, UserUpdate, PostEdit, PostList, UserDetail,deletefunc, PostViewSet, mypagefunk, likefunc, deletefunc, ReactLogin, ReactHomeView, ReactLogoutView, ReactSignupView, CustomAuthToken, ReactPostCreateView, ReactSearchListView, ReactUserDetailView, ReactMyPageView, ReactFollowView
 
 router = routers.DefaultRouter()
-router.register('Post', PostViewSet)
+# router.register('Post', PostViewSet)
 router.register('home', ReactHomeView, basename='home')
 
 urlpatterns = [
@@ -23,7 +23,7 @@ urlpatterns = [
     path('userdetail/', ReactUserDetailView.as_view(), name='userdetail'),
     path('follow/', ReactFollowView.as_view(), name='follow'),
     path('', Login.as_view(), name='login'),
-    path('home/', HomeView.as_view(), name='home'),
+    # path('home/', HomeView.as_view(), name='home'),
     path('loout/', Logout.as_view(), name='logout'),
     # path('post_create/<int:pk>', PostCreate.as_view(), name='post_create'),
     path('post_view/', PostView.as_view(), name='post_view'),
