@@ -341,26 +341,6 @@ class CustomAuthToken(ObtainAuthToken):
 class ReactHomeView(viewsets.ModelViewSet):
     queryset = Post.objects.select_related('user').all()
     serializer_class = HomeSerializer
-
-    def likefunc(self, request, *args, **kwargs):
-        post_id = request.POST.get('post_id')
-        model = like.objects.filter(user_id=request.user,  post_id=post_id)
-        post_box = Post.objects.get(pk=post_id)
-        if model.count() == 0:
-            like_table = like()
-            like_table.user_id = request.user
-            like_table.post_id = post_box
-            like_table.save()
-        else:
-            model.delete()
-        this_post = like.objects.filter(post_id=post_id).count()
-        post_box.like_count = this_post
-        post_box.save()
-        context = {
-            'post_id':post_box.id,
-            'like_count':post_box.like_count
-        }
-
     # def list(self, request, *args, **kwargs):
     #     temp = self.queryset
     #     for post in temp:

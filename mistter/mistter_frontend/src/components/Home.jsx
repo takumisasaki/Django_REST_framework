@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Favorite } from './Favorite';
 import { AppBar, Card, CardContent, Typography } from "@mui/material";
 
 export const Home = () => {
@@ -26,8 +27,8 @@ export const Home = () => {
                     </Typography>
                     <Typography variant="body2" component="p">
                         {item.text}
-                        {item.like_count}
                     </Typography>
+                    <Favorite post={item} />
                 </CardContent>
             </Card>
         ))}
