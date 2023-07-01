@@ -3,7 +3,7 @@ from rest_framework import routers
 from django.conf.urls import include
 # from .views import signupfunk
 from . import views
-from .views import FollowView, HomeView, PostCreate, Signup, Login, Logout, SearchListView ,PostView, LikePostView, UserUpdate, PostEdit, PostList, UserDetail,deletefunc, PostViewSet, mypagefunk, likefunc, deletefunc, ReactLogin, ReactHomeView, ReactLogoutView, ReactSignupView, CustomAuthToken, ReactPostCreateView, ReactSearchListView, ReactUserDetailView, ReactMyPageView, ReactFollowView
+from .views import FollowView, HomeView, PostCreate, Signup, Login, Logout, SearchListView ,PostView, LikePostView, UserUpdate, PostEdit, PostList, UserDetail,deletefunc, PostViewSet, mypagefunk, likefunc, deletefunc, ReactLogin, ReactHomeView, ReactLogoutView, ReactSignupView, CustomAuthToken, ReactPostCreateView, ReactSearchListView, ReactUserDetailView, ReactMyPageView, ReactFollowView, ReactlikeView
 
 router = routers.DefaultRouter()
 # router.register('Post', PostViewSet)
@@ -22,6 +22,7 @@ urlpatterns = [
     path('post-search/', ReactSearchListView.as_view(), name='post-search'),
     path('userdetail/', ReactUserDetailView.as_view(), name='userdetail'),
     path('follow/', ReactFollowView.as_view(), name='follow'),
+    path('like/', ReactlikeView.as_view(), name='like'),
     path('', Login.as_view(), name='login'),
     # path('home/', HomeView.as_view(), name='home'),
     path('loout/', Logout.as_view(), name='logout'),

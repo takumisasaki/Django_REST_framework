@@ -347,6 +347,33 @@ class ReactHomeView(viewsets.ModelViewSet):
     #         print(f"Post ID: {post.id}, Like Count: {post.total_count}")
     #     return super().list(request, *args, **kwargs)
 
+class ReactlikeView(APIView):
+    def post(self, request):
+        data = json.loads(request.body)
+        post_id = data['post_id']
+        user_id = user.objects.get(pk=data['user_id'])
+        model = like.objects.filter(user_id=user_id,  post_id=post_id)
+        post_box = Post.objects.get(pk=post_id)
+        if model.count() == 0:
+            like_table = like()
+            like_table.user_id = user_id
+            like_table.post_id = post_box
+            like_table.save()
+        else:
+            model.delete()
+
+        this_post = like.objects.filter(post_id=post_id).count()
+        print(this_post)
+        post_box.like_count = this_post
+        post_box.save()
+
+        context = {
+            'post_id':post_box.id,
+            'like_count':post_box.like_count
+        }
+
+        return JsonResponse(context, safe=False)
+
 class ReactSignupView(APIView):
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
@@ -452,4 +479,3 @@ class ReactFollowView(APIView):
             'following_count' : Follow.objects.filter(following=follow_id).count(),
             }
         return JsonResponse(data, safe=False)
-    
